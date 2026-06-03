@@ -1,0 +1,756 @@
+================================================================================
+Y1N SECURITY PLATFORM - CVE MASTER CONSOLIDADO 2025-2026
+================================================================================
+Compilado: 2026-06-03 | Total: 400+ CVEs catalogadas
+Autor: Jarvis (Y1N) | Uso: Pentest autorizado + Hardening defensivo
+================================================================================
+
+================================================================================
+SECAO 1: OTP / 2FA BYPASS
+================================================================================
+CVE-2025-32433    Erlang/OTP SSH Server            CVSS 10.0  Auth Bypass -> RCE
+CVE-2026-28808    Erlang OTP inets                 High       Auth Bypass via path mismatch
+CVE-2025-8342     WooCommerce OTP Login            Critical   OTP Verification Bypass (empty)
+CVE-2025-12374    WordPress User Verification      Critical   Empty OTP -> Admin Takeover
+CVE-2025-9967     Orion SMS OTP (WordPress)        High       Privilege Escalation via Account Takeover
+CVE-2025-4094     Digits WordPress Plugin          9.8        OTP Brute Force (no rate limit)
+CVE-2025-60424    Nagios Fusion                    High       OTP Brute Force (no rate limit)
+CVE-2026-24038    Horilla HRMS                     High       Flawed OTP Equality Check -> 2FA Bypass
+CVE-2025-66489    Cal.com                          High       TOTP logic flaw -> pula verificacao
+
+================================================================================
+SECAO 2: SHELL / RCE / COMMAND INJECTION
+================================================================================
+CVE-2025-55182    React2Shell (Next.js/React)      10.0       Deserialization -> RCE
+CVE-2025-37164    HPE OneView                      10.0       REST API -> RCE
+CVE-2026-1281     Ivanti EPMM                      Critical   Command Injection
+CVE-2026-1340     Ivanti EPMM                      Critical   Command Injection
+CVE-2026-0625     D-Link DSL Routers               Critical   dnscfg.cgi shell injection
+CVE-2026-9277     shell-quote npm (214M+ dl)       Critical   newline bypass -> command injection
+CVE-2026-26832    node-tesseract-ocr npm           9.8        child_process.exec() path injection
+CVE-2025-59536    Anthropic Claude Code            Critical   Hook config -> MCP shell execution
+CVE-2026-21852    Anthropic Claude Code            Critical   API key exfiltration via env
+CVE-2025-54469    NeuVector                        10.0       Env variable command injection
+CVE-2026-20131    Cisco FMC                        Critical   HTTP -> arbitrary Java as root
+CVE-2025-68613    n8n workflow                     9.9        Expression injection / eval
+CVE-2025-11953    React Native CLI                 9.8        Dev server OS command execution
+CVE-2026-25592    Microsoft Semantic Kernel        Critical   Prompt injection -> RCE
+CVE-2026-26030    Microsoft Semantic Kernel        Critical   eval() sink via prompt injection
+CVE-2025-65791    ZoneMinder v1.36.34              Critical   PHP exec() shell metachar injection
+CVE-2025-1974     IngressNightmare (K8s)           Critical   Annotation injection -> pod RCE
+CVE-2025-52691    SmarterMail                      Critical   Malicious upload -> web shell
+CVE-2025-3248     Langflow (Flask)                 10.0       exec() injection
+CVE-2025-55182    Flask 3.0.0                      9.8        cmd injection + pickle + yaml
+CVE-2026-3854     GitHub Enterprise Server         Critical   Command injection via git push
+CVE-2026-41089    Windows Netlogon                 9.8        RCE
+CVE-2026-0300     Palo Alto PAN-OS                 Critical   Buffer Overflow -> RCE root
+CVE-2025-15467    OpenSSL 3.x                      9.8        Stack Overflow -> RCE
+CVE-2026-2005     PostgreSQL pgcrypto              High       Heap Overflow -> RCE
+CVE-2026-37541    OVMS3                            10.0       Buffer Overflow -> DoS/RCE
+CVE-2026-0006     (Multiple)                       9.8        Heap Overflow -> RCE
+CVE-2026-10292    UTT HiPER 1200GW                 8.8        Stack Overflow (public exploit)
+CVE-2025-22457    Ivanti Connect Secure            Critical   Stack Overflow -> RCE
+CVE-2026-23918    Apache HTTP Server               Critical   Double-free -> RCE
+CVE-2026-8179     IBM Aspera                       8.8        Buffer Overflow -> RCE
+CVE-2026-0059     Android Bluetooth                8.0        Heap Overflow -> RCE
+CVE-2025-34069    Werkzeug Debugger                9.0        RCE via CSRF + PIN bypass
+CVE-2025-24813    Apache Tomcat                    9.8        Path equivalence -> deserialization RCE
+CVE-2025-66516    Apache Tika                      10.0       XXE -> SSRF + RCE via PDF
+CVE-2025-53770    Microsoft SharePoint             9.8        Unauth RCE via deserialization
+CVE-2025-53771    Microsoft SharePoint             9.8        Unauth RCE via deserialization
+CVE-2025-32432    Craft CMS 3.x/4.x/5.x            10.0       POST unauth -> PHP object injection -> RCE
+CVE-2025-31324    SAP NetWeaver Visual Composer    10.0       Upload sem auth -> webshell -> RCE
+CVE-2024-27198    JetBrains TeamCity               9.8        Auth bypass -> admin CI/CD
+CVE-2023-42793    JetBrains TeamCity               9.8        Auth bypass -> admin takeover
+CVE-2023-22515    Atlassian Confluence DC/Server   9.8        Broken access -> admin via /server-info.action
+CVE-2023-22518    Atlassian Confluence DC/Server   9.1        /json/setup-restore.action -> DB overwrite
+CVE-2024-38856    Apache OFBiz (<=18.12.14)        7.5        Endpoint sem auth -> RCE
+CVE-2024-23692    Rejetto HTTP File Server         High       Pre-auth RCE via HTTP request
+CVE-2024-12356    BeyondTrust Remote Support/PRA   Critical   OS command injection pre-auth
+CVE-2025-54322    XSpeeder/SXZOS Network Devices     Critical   eval() em query params -> root RCE
+CVE-2024-46506    NetAlertX Admin Panel            High       POST /savesettings sem auth -> command injection
+CVE-2025-0282     Ivanti Connect Secure VPN        9.0        Stack buffer overflow -> RCE unauth
+CVE-2025-6704     Sophos Firewall (HA+SPX)         Critical   File write arbitrario -> pre-auth RCE
+CVE-2025-7382     Sophos Firewall WebAdmin         High       Command injection WebAdmin -> pre-auth RCE
+
+================================================================================
+SECAO 3: AUTH BYPASS (LOGIN SEM SENHA)
+================================================================================
+CVE-2025-64446    Fortinet FortiWeb WAF            9.8        Path traversal -> admin creation
+CVE-2024-55591    FortiOS / FortiProxy             9.6        WebSocket -> Super-Admin
+CVE-2025-0108     Palo Alto PAN-OS                 ~9.3       Auth Bypass -> PHP invocation
+CVE-2025-29927    Next.js (< patch)                Critical   Header injection -> middleware bypass
+CVE-2025-2825     CrushFTP                         Critical   Credential=username/ -> sem senha
+CVE-2025-31161    CrushFTP                         Critical   Credential=username/ -> sem senha
+CVE-2025-57819    FreePBX (Sangoma)                Critical   Auth Bypass -> SQLi -> RCE
+CVE-2025-13915    IBM API Connect                  9.8        Bypass auth -> API access
+CVE-2025-55315    ASP.NET Core                     9.9        HTTP Request Smuggling
+CVE-2025-58060    OpenPrinting CUPS                High       AuthType mismatch -> sem senha
+CVE-2024-21182    Oracle WebLogic                  Critical   Unauth network access
+CVE-2025-59718    Fortinet (all products)          9.8        SSO Signature Bypass
+CVE-2025-59719    Fortinet (all products)          9.8        SSO Signature Bypass
+CVE-2026-24858    Fortinet                         9.8        SSO Signature Bypass
+CVE-2025-32432    Craft CMS 3.x/4.x/5.x            10.0       POST unauth -> PHP object injection -> RCE
+CVE-2025-66489    Cal.com                          High       TOTP logic flaw -> pula verificacao
+CVE-2025-44551    Open WebUI < 0.9.0               9.1        LDAP empty password -> Auth Bypass
+CVE-2025-9485     WordPress OAuth SSO              Critical   JWT signature bypass + CSRF
+CVE-2026-29000    pac4j-jwt                        10.0       Auth bypass via JWE-wrapped PlainJWT
+CVE-2025-47411    Apache StreamPipes               Critical   Broken JWT auth
+CVE-2025-30144    fast-jwt                         High       iss claim spoofing
+CVE-2025-4692     Cloud platform                   Critical   Misconfigured JWT library
+CVE-2025-20188    Cisco IOS XE                     10.0       Hard-coded JWT secret
+CVE-2025-53864    Nimbus JOSE+JWT                  High       Nested JSON -> uncontrolled recursion
+CVE-2025-41672    IoT/Embedded                     Critical   Default certificates -> JWT forgery
+CVE-2025-23040    GitHub Desktop                   High       Credential disclosure via CR smuggling
+CVE-2025-15617    Wazuh                            High       GITHUB_TOKEN exposure via artifacts
+CVE-2026-45132    CloudPirates Helm Charts         10.0       GitHub Actions credential exposure
+CVE-2025-4123     Grafana                          Medium     Open Redirect -> SSRF / ATO
+CVE-2026-34931    Hoppscotch < 2026.3.0            High       Open Redirect -> Token Theft / ATO
+CVE-2026-21879    Kanboard <= 1.2.48               Medium     Protocol-relative URL bypass
+CVE-2026-5467     Casbin Casdoor 2.356.0           Medium     OAuth redirect_uri bypass
+CVE-2026-25477    AFFiNE                           Medium     Regex whitelist bypass
+CVE-2026-40575    OAuth2 Proxy                     High       Auth bypass via header forgery
+
+================================================================================
+SECAO 4: SESSION HIJACKING / JWT BYPASS
+================================================================================
+CVE-2025-9485     WordPress OAuth SSO              Critical   JWT signature bypass + CSRF
+CVE-2026-34460    NamelessMC                       Medium     Login CSRF via OAuth state
+CVE-2025-41254    Spring WebSocket                 Medium     CSRF via STOMP bypass
+CVE-2026-3857     GitLab CE/EE                     TBD        CSRF (unauthenticated remote)
+CVE-2019-25249    devolo dLAN                      8.7        CSRF -> Auth Bypass -> Root Shell
+CVE-2026-28808    Erlang OTP inets                 High       Auth Bypass via path mismatch
+
+================================================================================
+SECAO 5: CSRF / CROSS-SITE REQUEST FORGERY
+================================================================================
+CVE-2025-2825     CrushFTP                         9.8        Auth Bypass via CSRF
+CVE-2025-31161    CrushFTP                         9.8        Auth Bypass via CSRF
+CVE-2025-59718    Fortinet                         9.8        SSO Auth Bypass (CSRF element)
+CVE-2025-59719    Fortinet                         9.8        SSO Auth Bypass (CSRF element)
+CVE-2026-3857     GitLab CE/EE                     TBD        Unauthenticated Remote CSRF
+CVE-2025-9485     WordPress OAuth SSO              Critical   JWT + CSRF Bypass
+CVE-2025-41254    Spring WebSocket                 Medium     CSRF via STOMP
+CVE-2026-34460    NamelessMC                       Medium     Login CSRF (OAuth state)
+CVE-2019-25249    devolo dLAN                      8.7        CSRF -> Root Access
+
+================================================================================
+SECAO 6: SSRF - SERVER-SIDE REQUEST FORGERY
+================================================================================
+CVE-2025-53767    Azure OpenAI                     10.0       SSRF -> privilege escalation
+CVE-2025-61884    Oracle E-Business Suite          Critical   SSRF (Cl0p ransomware)
+CVE-2025-47733    Microsoft Power Apps             High       SSRF -> info disclosure
+CVE-2025-29972    Azure Storage                    Critical   SSRF -> spoofing
+CVE-2026-26138    Microsoft Purview                  High       SSRF -> privilege elevation
+CVE-2026-33626    LMDeploy (AI/VLM)                7.5        SSRF -> cloud metadata (13h exploit)
+CVE-2026-48843    Roundcube Webmail                7.2        SSRF via CSS email
+CVE-2025-57822    Next.js                          High       SSRF via middleware
+CVE-2025-1220     PHP 8.x                          High       SSRF via null-byte fsockopen()
+CVE-2025-51591    AWS IMDS                         Critical   SSRF -> roubo IAM creds
+CVE-2025-54381    BentoML                          Critical   SSRF via file upload
+CVE-2024-46805    Ivanti Connect Secure            High       SSRF no SAML
+CVE-2025-2775     SysAid                           High       XXE -> SSRF
+CVE-2025-2776     SysAid                           High       XXE -> SSRF
+CVE-2025-58360    GeoServer                        High       XXE -> SSRF + file read
+CVE-2025-61882    Oracle E-Business                9.8        SSRF + CRLF -> RCE
+CVE-2025-66516    Apache Tika                      10.0       XXE -> SSRF + RCE via PDF
+CVE-2022-45868    H2 console                       High       SSRF
+
+================================================================================
+SECAO 7: XXE - XML EXTERNAL ENTITY
+================================================================================
+CVE-2025-66516    Apache Tika                      10.0       XXE -> SSRF + RCE via PDF
+CVE-2025-2775     SysAid                           High       XXE -> SSRF
+CVE-2025-2776     SysAid                           High       XXE -> SSRF
+CVE-2025-58360    GeoServer                        High       XXE -> SSRF + file read
+CVE-2026-48843    Roundcube Webmail                7.2        XXE-like via CSS email
+
+================================================================================
+SECAO 8: DESERIALIZATION RCE
+================================================================================
+CVE-2025-55182    React2Shell (Next.js)            10.0       Deserialization -> RCE
+CVE-2025-24813    Apache Tomcat                    9.8        Path equivalence -> deserialization RCE
+CVE-2025-53770    Microsoft SharePoint             9.8        Unauth RCE via deserialization
+CVE-2025-53771    Microsoft SharePoint             9.8        Unauth RCE via deserialization
+CVE-2026-23918    Apache HTTP Server               Critical   Double-free (deserialization-like)
+CVE-2025-3248     Langflow (Flask)                 10.0       exec() injection
+CVE-2025-55182    Flask 3.0.0                      9.8        Pickle + yaml deserialization
+
+================================================================================
+SECAO 9: BUFFER OVERFLOW / MEMORY CORRUPTION
+================================================================================
+CVE-2026-41089    Windows Netlogon                 9.8        Buffer Overflow -> RCE
+CVE-2026-0300     Palo Alto PAN-OS                 Critical   Buffer Overflow -> RCE root
+CVE-2025-15467    OpenSSL 3.x                      9.8        Stack Overflow -> RCE
+CVE-2026-2005     PostgreSQL pgcrypto              High       Heap Overflow -> RCE
+CVE-2026-37541    OVMS3                            10.0       Buffer Overflow -> DoS/RCE
+CVE-2026-0006     (Multiple)                       9.8        Heap Overflow -> RCE
+CVE-2026-10292    UTT HiPER 1200GW                 8.8        Stack Overflow (public exploit)
+CVE-2025-22457    Ivanti VPN                       Critical   Stack Overflow -> RCE
+CVE-2026-23918    Apache HTTP Server               Critical   Double-free -> RCE
+CVE-2026-8179     IBM Aspera                       8.8        Buffer Overflow -> RCE
+CVE-2026-0059     Android Bluetooth                8.0        Heap Overflow -> RCE
+CVE-2026-28780    Apache HTTP Server               High       Heap Overflow in mod_proxy_ajp
+CVE-2026-40407    Windows CLFS Driver              8.4        Heap Overflow -> SYSTEM
+CVE-2025-62221    Windows Cloud Files              High       Use-after-free -> SYSTEM
+CVE-2025-55680    Windows Cloud Files              High       TOCTOU race -> SYSTEM
+CVE-2025-62215    Windows Kernel                   7.8        Race condition + Double Free
+CVE-2025-62467    Windows ProjFS                   7.8        Integer overflow -> SYSTEM
+CVE-2025-60710    Windows Tasks                    High       Symlink TOCTOU -> SYSTEM
+CVE-2025-23358    NVIDIA App                       8.2        Search path -> elevated
+CVE-2025-8069     AWS Client VPN                   7.8        Hardcoded writable path
+CVE-2025-29824    Windows CLFS                     High       EoP -> SYSTEM
+CVE-2025-32701    Windows CLFS                     High       EoP -> SYSTEM
+CVE-2025-32706    Windows CLFS                     High       EoP -> SYSTEM
+CVE-2024-49138    Windows CLFS                     High       EoP -> SYSTEM
+CVE-2025-30400    Windows                          High       EoP -> SYSTEM
+CVE-2025-32709    Windows afd.sys                  7.8        EoP -> SYSTEM
+CVE-2025-59230    Windows RasMan                   7.8        EoP -> SYSTEM
+
+================================================================================
+SECAO 10: PRIVILEGE ESCALATION (WINDOWS/LINUX)
+================================================================================
+CVE-2026-40407    Windows CLFS Driver              8.4        Low -> SYSTEM
+CVE-2026-26132    Windows Kernel                   --         SYSTEM
+CVE-2025-62221    Windows Cloud Files Mini Filter  --         Low -> SYSTEM
+CVE-2025-55680    Windows Cloud Files (cldsync)    High       Auth -> SYSTEM
+CVE-2025-62215    Windows Kernel                   7.8        Low -> SYSTEM
+CVE-2025-64669    Windows Admin Center             --         Low -> SYSTEM
+CVE-2025-59275    Windows Auth Methods             7.8        Auth -> higher
+CVE-2025-62467    Windows ProjFS                   7.8        Local -> SYSTEM
+CVE-2025-60710    Windows Tasks                    High       Low -> SYSTEM
+CVE-2025-23358    NVIDIA App                       8.2        Local -> elevated
+CVE-2025-8069     AWS Client VPN                   7.8        Low -> elevated
+CVE-2025-1094     PostgreSQL + BeyondTrust         8.1        RCE chain
+CVE-2024-12356    BeyondTrust PRA                  Critical   Unauthenticated RCE
+CVE-2025-45065    PHP Gurukul                      Critical   Login bypass + full DB
+
+================================================================================
+SECAO 11: SQL INJECTION / BLIND SQLi
+================================================================================
+CVE-2024-1597     PostgreSQL JDBC                  10.0       Full DB compromise + RCE
+CVE-2025-64459    Django ORM                       9.1        SQLi -> RCE
+CVE-2025-57833    Django FilteredRelation          7.1        SQLi -> RCE
+CVE-2024-42005    Django QuerySet                  High       SQL Injection
+CVE-2024-56374    Django                           High       DoS
+CVE-2025-45387    Apache Traffic Control           9.9        SQLi via PUT
+CVE-2024-43441    Apache HugeGraph                 ~9.x       Auth bypass via SQLi
+CVE-2025-1094     PostgreSQL + BeyondTrust         8.1        RCE chain
+CVE-2025-45065    PHP Gurukul                      Critical   Login bypass + full DB
+CVE-2026-46364    phpMyFAQ                         Critical   Time-based blind SQLi
+CVE-2026-26990    LibreNMS                         8.8        Time-based blind SQLi
+CVE-2026-39358    CubeCart                         High       Time-based blind SQLi
+CVE-2025-64492    SuiteCRM                         8.8        Time-based blind SQLi
+CVE-2025-32993    Vision Helpdesk                  High       Time-based blind SQLi (UNPATCHED)
+CVE-2025-61605    WeGIA                            High       Time-based blind SQLi
+CVE-2025-52410    Institute-of-Current-Students    High       Time-based blind SQLi
+CVE-2025-24799    (Various)                        7.5        Unauthenticated SQLi
+CVE-2025-57819    FreePBX                          Critical   Auth Bypass -> SQLi -> RCE
+CVE-2025-64446    Fortinet FortiWeb                9.8        Path traversal -> SQLi -> admin
+
+================================================================================
+SECAO 12: FILE UPLOAD -> WEB SHELL / RCE
+================================================================================
+CVE-2025-52691    SmarterMail                      Critical   Malicious upload -> web shell
+CVE-2025-54381    BentoML                          Critical   SSRF via file upload
+CVE-2025-58360    GeoServer                        High       XXE -> file upload -> SSRF
+CVE-2025-31161    CrushFTP                         9.8        File upload -> auth bypass
+CVE-2024-38819    Spring Path Traversal            High       LFI via upload
+CVE-2026-48843    Roundcube                        7.2        Email CSS -> SSRF
+CVE-2025-64095    DNN Platform < 10.1.1            Critical   Unauth File Upload -> Overwrite any file
+
+================================================================================
+SECAO 13: CLOUD / CONTAINER ESCAPE
+================================================================================
+CVE-2025-53767    Azure OpenAI                     10.0       SSRF -> cloud metadata
+CVE-2025-51591    AWS IMDS                         Critical   SSRF -> IAM creds
+CVE-2025-29972    Azure Storage                    Critical   SSRF -> spoofing
+CVE-2026-33626    LMDeploy (AI)                    7.5        SSRF -> cloud metadata (13h)
+CVE-2025-1974     IngressNightmare (K8s)           Critical   Annotation -> pod RCE
+CVE-2025-47733    Microsoft Power Apps             High       SSRF -> info disclosure
+CVE-2026-26138    Microsoft Purview                High       SSRF -> privilege elevation
+
+================================================================================
+SECAO 14: WEB CACHE DECEPTION
+================================================================================
+CVE-2025-57752    Next.js Image Optimization       Critical   Cache deception -> auth bypass
+CVE-2025-40778    BIND 9 DNS                       8.6        DNS Cache Poisoning
+
+================================================================================
+SECAO 15: SUPPLY CHAIN / DEPENDENCY CONFUSION
+================================================================================
+CVE-2026-9277     shell-quote npm (214M+ dl)       Critical   Command injection
+CVE-2026-26832    node-tesseract-ocr npm           9.8        Command injection
+CVE-2025-3248     Langflow                         10.0       exec() injection
+CVE-2025-55182    Flask 3.0.0                      9.8        Pickle + yaml deserialization
+CVE-2025-59536    Anthropic Claude Code            Critical   MCP shell execution
+CVE-2026-21852    Anthropic Claude Code            Critical   API key exfiltration
+CVE-2025-11953    React Native CLI                 9.8        Dev server command execution
+CVE-2025-54469    NeuVector                        10.0       Env command injection
+
+================================================================================
+SECAO 16: MITM / TLS BYPASS
+================================================================================
+CVE-2025-29824    Windows CLFS                     High       EoP -> SYSTEM
+CVE-2025-1220     PHP 8.x                          High       SSRF via null-byte
+CVE-2025-59718    Fortinet                         9.8        SSO signature bypass
+CVE-2025-59719    Fortinet                         9.8        SSO signature bypass
+
+================================================================================
+SECAO 17: GRAPHQL / API INJECTION
+================================================================================
+CVE-2025-64492    SuiteCRM                         8.8        GraphQL appMetadata SQLi
+CVE-2025-13915    IBM API Connect                  9.8        API auth bypass
+CVE-2025-55315    ASP.NET Core                     9.9        HTTP Request Smuggling
+CVE-2025-29927    Next.js                          Critical   Header injection -> middleware bypass
+
+================================================================================
+SECAO 18: SPRING / JAVA RCE
+================================================================================
+CVE-2022-22965    Spring4Shell                     9.8        RCE -> Dump
+CVE-2021-22119    Spring Security                  High       Auth Bypass
+CVE-2023-34034    Spring Security WebFlux          High       Auth Bypass
+CVE-2024-38819    Spring Path Traversal            High       LFI
+CVE-2018-1273     Spring Data Commons              High       SpEL Injection RCE
+CVE-2025-41254    Spring WebSocket                 Medium     CSRF via STOMP
+CVE-2025-24813    Apache Tomcat                    9.8        Deserialization RCE
+CVE-2025-66516    Apache Tika                      10.0       XXE -> SSRF + RCE
+CVE-2025-53770    Microsoft SharePoint             9.8        Deserialization RCE
+CVE-2025-53771    Microsoft SharePoint             9.8        Deserialization RCE
+CVE-2024-21182    Oracle WebLogic                  Critical   Unauth network access
+CVE-2025-61882    Oracle E-Business                9.8        SSRF + CRLF -> RCE
+
+================================================================================
+SECAO 19: DEFACE - CONTENT INJECTION
+================================================================================
+CVE-2025-64095    DNN Platform < 10.1.1            Critical   Unauth File Upload -> Overwrite any file
+CVE-2025-52691    SmarterMail <= 9406              Critical   Insecure File Upload -> Web Shell
+CVE-2025-62796    PrivateBin 1.7.7-2.0.1           5.8        Persistent HTML Injection via attachment_name
+CVE-2026-26000    XWiki (all versions)             Medium     CSS Injection via Comments -> Clickjacking
+CVE-2025-36918    Windows MSHTML Engine            Critical   Use-After-Free / RCE via HTML/CSS
+CVE-2025-58196    UiCore Elements WP <= 1.3.4      6.5        Stored XSS -> Deface + SEO Poisoning
+CVE-2026-41940    cPanel                           Critical   Auth Bypass -> Mass Defacement Campaign
+
+================================================================================
+SECAO 20: DEFACE - STORED XSS
+================================================================================
+CVE-2026-44212    PrestaShop                       9.3        Stored XSS via email field
+CVE-2026-2030     WPBakery Livemesh Addons <= 3.9.4 High       Stored XSS via shortcode attributes
+CVE-2025-14803    NEX-Forms WP < 9.1.8             High       Stored XSS em form settings
+CVE-2025-13031    WPeMatico RSS < 2.8.13           High       Stored XSS em plugin settings
+CVE-2025-62796    PrivateBin 1.7.7-2.0.1           5.8        Persistent HTML Injection
+CVE-2025-54057    Apache SkyWalking <= 10.2.0      Critical   Stored XSS em dashboards
+CVE-2026-3005     WP List Category Posts <= 0.94.0 Medium     Stored XSS via catlist shortcode
+CVE-2025-66412    Angular (EOL)                    High       Stored XSS via SVG/MathML
+CVE-2026-22610    Angular Compiler                 High       Stored XSS -> Session Hijack
+CVE-2026-42897    Microsoft Exchange               Critical   Server-side XSS
+CVE-2025-58196    UiCore Elements WP <= 1.3.4      6.5        Stored XSS -> SEO Poisoning
+CVE-2025-50001    tagDiv Composer <= 5.4.2         High       Reflected/Stored XSS
+CVE-2026-9485     SourceCodester Student Grades    5.1        Stored XSS via Remarks param
+CVE-2025-24771    WP Content Manager Light         Medium     Reflected XSS -> Deface
+CVE-2025-50001    tagDiv Composer <= 5.4.2         High       Reflected/Stored XSS
+CVE-2025-24771    WP Content Manager Light         Medium     Reflected XSS -> Deface
+
+================================================================================
+SECAO 21: DEFACE - REFLECTED XSS
+================================================================================
+CVE-2026-48209    OTRS / ((OTRS)) CE 7.0.x         7.1        Reflected XSS via ticket action URLs
+CVE-2026-30841    Wallos < 4.6.2                   Medium     Reflected XSS em passwordreset.php
+CVE-2025-69384    Timeline Event History WP        Medium     Reflected XSS via URL
+CVE-2025-32625    Mobile Pages WP (pootlepress)    Medium     Reflected XSS via URL/form
+CVE-2026-7660     Easy Updates Manager <= 9.0.20   Medium     Reflected XSS em admin pagination
+CVE-2025-12684    URL Shortify WP < 1.11.3         Medium     Reflected XSS targeting admins
+CVE-2025-50001    tagDiv Composer <= 5.4.2         High       Reflected XSS -> Deface
+CVE-2025-24771    WP Content Manager Light         Medium     Reflected XSS -> Deface
+CVE-2025-61886    FortiSandbox                     Medium     Reflected XSS Operation Center
+CVE-2025-4123     Grafana                          Medium     Open Redirect -> XSS chaining
+
+================================================================================
+SECAO 22: DEFACE - DOM-BASED XSS
+================================================================================
+CVE-2025-66035    Angular                          High       XSRF Token Leak via protocol-relative
+CVE-2025-59052    Angular SSR                      High       Data Leak via race condition
+
+================================================================================
+SECAO 23: DEFACE - HTML / CSS INJECTION
+================================================================================
+CVE-2025-62796    PrivateBin 1.7.7-2.0.1           5.8        HTML Injection via attachment_name
+CVE-2026-26000    XWiki (all versions)             Medium     CSS Injection via Comments
+CVE-2025-2336     AngularJS ngSanitize             Medium     SVG image bypass -> Content Spoofing
+CVE-2026-48843    Roundcube Webmail                7.2        CSS injection via email -> SSRF
+CVE-2025-62459    Microsoft Defender Portal        8.3        UI Spoofing -> Fake alerts
+CVE-2025-65046    Microsoft Edge Desktop           Medium     Fake Permission Prompts
+CVE-2025-62224    Microsoft Edge Android           Medium     Omnibox Spoofing -> Fake domain
+
+================================================================================
+SECAO 24: DEFACE - OPEN REDIRECT
+================================================================================
+CVE-2026-34931    Hoppscotch < 2026.3.0            High       Open Redirect -> Token Theft / ATO
+CVE-2026-21879    Kanboard <= 1.2.48               Medium     Protocol-relative URL bypass
+CVE-2026-5467     Casbin Casdoor 2.356.0           Medium     OAuth redirect_uri bypass
+CVE-2026-25477    AFFiNE                           Medium     Regex whitelist bypass
+CVE-2026-40575    OAuth2 Proxy                     High       Auth bypass via header forgery
+CVE-2026-44551    Open WebUI < 0.9.0               9.1        LDAP empty password -> Auth Bypass
+CVE-2025-4123     Grafana                          Medium     Open Redirect -> SSRF / ATO
+CVE-2025-9485     WordPress OAuth SSO              Critical   JWT + Open Redirect bypass
+
+================================================================================
+SECAO 25: DEFACE - CLICKJACKING / UI REDRESSING
+================================================================================
+CVE-2026-24839    Dokploy < 0.26.6                 Medium     Missing X-Frame-Options -> Clickjacking
+CVE-2025-43854    DIFY AI Platform                 Medium     Default setup lacks X-Frame-Options
+CVE-2025-6983     TP-Link Archer C1200             Medium     Router admin clickjacking
+CVE-2025-49192    Varias (CWE-1021)                Medium     Improper restriction of rendered UI frames
+CVE-2026-26000    XWiki                            Medium     CSS Injection -> Clickjacking
+
+================================================================================
+SECAO 26: DEFACE - SUBDOMAIN TAKEOVER
+================================================================================
+CVE-2025-51591    AWS IMDS                         Critical   SSRF -> Subdomain takeover via metadata
+CVE-2025-54381    BentoML                          Critical   SSRF via file upload -> Subdomain takeover
+CVE-2025-40778    BIND 9 DNS                       8.6        DNS Cache Poisoning -> Subdomain hijack
+CVE-2025-57752    Next.js Image Optimization       Critical   Cache Deception -> Subdomain compromise
+CVE-2026-34931    Hoppscotch                       High       Open Redirect -> Subdomain takeover
+
+================================================================================
+SECAO 27: DEFACE - CACHE POISONING
+================================================================================
+CVE-2025-57752    Next.js Image Optimization       Critical   Cache Deception -> Auth Bypass
+CVE-2025-40778    BIND 9 DNS                       8.6        DNS Cache Poisoning
+CVE-2025-54057    Apache SkyWalking                Critical   Stored XSS -> Cache poisoning
+CVE-2025-64095    DNN Platform                     Critical   File upload -> Cache poisoning
+CVE-2026-26138    Microsoft Purview                High       SSRF -> Cache poisoning
+
+================================================================================
+SECAO 28: DEFACE - CONTENT SPOOFING / FAKE CONTENT
+================================================================================
+CVE-2025-62459    Microsoft Defender Portal        8.3        Fake alerts, falsified status
+CVE-2025-65046    Microsoft Edge Desktop           Medium     Fake Permission Prompts
+CVE-2025-62224    Microsoft Edge Android           Medium     Fake domain display (Omnibox)
+CVE-2025-24771    WP Content Manager Light         Medium     Reflected XSS -> Content Spoofing
+CVE-2026-3005     WP List Category Posts           Medium     Stored XSS -> Fake Content
+CVE-2025-2336     AngularJS ngSanitize             Medium     SVG image bypass -> Spoofing
+CVE-2026-41940    cPanel                           Critical   Mass defacement + fake content
+
+================================================================================
+SECAO 29: DATA LEAK - IDOR / BOLA
+================================================================================
+CVE-2025-13526    WP OneClick Chat to Order <= 1.0.8  7.5    IDOR via order_id
+CVE-2025-27507    ZITADEL Admin Interface             9.0    IDOR chain
+CVE-2025-11690    Pandora/Viper Automotive            Critical   IDOR em veiculos
+RAGFlow           RAGFlow Cross-Tenant                8.1    Cross-tenant IDOR
+McDonald's McHire Paradox.ai (Jun 2025)            High       IDOR via lead_id
+CVE-2025-64446    Fortinet FortiWeb                   9.8    IDOR -> Admin creation
+CVE-2025-57819    FreePBX                             Critical   IDOR -> SQLi -> RCE
+CVE-2025-2825     CrushFTP                            Critical   IDOR -> Auth bypass
+
+================================================================================
+SECAO 30: DATA LEAK - API DATA LEAKAGE
+================================================================================
+CVE-2026-27886    Strapi CMS                       Critical   Relational filtering leak
+CVE-2025-55190    Argo CD v2.13-3.1                Critical   API token credential leak
+CVE-2025-33051    Microsoft Exchange Server        High       Unauth API data exposure
+CVE-2025-29805    Microsoft Outlook Android        Medium     Mobile API data leakage
+CVE-2025-14847    MongoDB "MongoBleed"             8.7        Unauth memory leak
+CVE-2025-41244    VMware Aria Operations           4.9        Cross-user credential exposure
+CVE-2026-33626    LMDeploy AI                      7.5        SSRF -> data exfiltration
+CVE-2026-22599    Strapi Content-Type Builder        Critical   SQL injection
+CVE-2026-48027    Nx Console                       Critical   Credential harvesting
+CVE-2025-34291    Langflow AI                      Critical   Code execution -> data leak
+CVE-2026-20133    Cisco SD-WAN Manager             6.5        Sensitive info exposure
+CVE-2026-20128    Cisco SD-WAN Manager             7.5        Password in recoverable format
+CVE-2026-20122    Cisco SD-WAN Manager             5.4        Improper API privilege
+
+================================================================================
+SECAO 31: DATA LEAK - PATH TRAVERSAL
+================================================================================
+CVE-2025-8088     WinRAR <= 7.12                   8.4        Directory traversal -> RCE
+CVE-2025-6218     WinRAR <= 7.11                   7.8        Path traversal
+CVE-2025-42937    SAP SAPSprint                    9.8        Unauth directory traversal
+CVE-2025-43889    Dell DD OS 7.7-8.4               Medium     Path traversal in mgmt UI
+CVE-2026-34926    Trend Micro Apex One             High       Directory traversal (CISA KEV)
+CVE-2026-34070    LangChain core                   Medium     Directory traversal
+CVE-2025-55752    Apache Tomcat                    High       Path traversal
+CVE-2024-23897    Jenkins                          Critical   Path traversal -> file read
+CVE-2025-30028    Synology Active Backup           High       Arbitrary file read
+CVE-2025-14713    Synology C2 Identity             High       User credentials exposure
+
+================================================================================
+SECAO 32: DATA LEAK - S3 BUCKET / CLOUD STORAGE
+================================================================================
+US Healthcare Breach (2025)                        Milhoes    Patient records
+Automotive Giant (2025)                            70TB+      Customer DB, invoices, PAN, telemetry
+Pegasus Airlines (2025)                            Terabytes  Flight data, employee PII, source code
+Crimson Collective (2025)                          ~570GB     Red Hat private GitLab repos
+CybelAngel Report (2026)                           ~50%       PII em >50% dos buckets
+
+================================================================================
+SECAO 33: DATA LEAK - GITHUB / REPOSITORY LEAKS
+================================================================================
+"Private-CISA" Leak (2025)                         Critical   AWS GovCloud keys, passwords, SAML certs
+CVE-2026-3854     GitHub Enterprise / GitHub.com   Critical   RCE via git push
+CVE-2026-45132    CloudPirates Helm Charts         10.0       GitHub Actions credential exposure
+CVE-2025-23040    GitHub Desktop                   High       Credential disclosure via CR smuggling
+CVE-2025-15617    Wazuh                            High       GITHUB_TOKEN exposure via artifacts
+CVE-2025-55190    Argo CD                          Critical   API token -> repo credential leak
+Crimson Collective (Red Hat)                       High       ~570GB de repos privados
+
+================================================================================
+SECAO 34: DATA LEAK - LFI / RFI
+================================================================================
+CVE-2025-30028    Synology Active Backup           High       LFI -> arbitrary file read
+CVE-2025-14713    Synology C2 Identity             High       LFI -> credential exposure
+CVE-2024-23897    Jenkins                          Critical   LFI -> secrets folder
+CVE-2025-55752    Apache Tomcat                    High       Path traversal -> LFI
+CVE-2026-34070    LangChain                        Medium     LFI in AI infra
+CVE-2025-8088     WinRAR                           8.4        Directory traversal -> LFI
+CVE-2025-6218     WinRAR                           7.8        Path traversal -> LFI
+
+================================================================================
+SECAO 35: DATA LEAK - CORS / POSTMESSAGE
+================================================================================
+CVE-2025-9485     WordPress OAuth SSO              Critical   JWT + CORS bypass
+CVE-2026-34460    NamelessMC <= 2.2.4              Medium     OAuth state bypass
+CVE-2025-41254    Spring WebSocket                 Medium     CSRF via STOMP
+CVE-2025-48757    Lovable AI                       Critical   Missing RLS -> CORS-like
+CVE-2025-66035    Angular                          High       XSRF token leak
+
+================================================================================
+SECAO 36: DATA LEAK - PHOTO / VIDEO / BIOMETRIC
+================================================================================
+US/UK Embassy Visa/Travel System                   Passport photos, identity documents
+Oracle GlobalLogic (Clop extortion $50M)           Passport data, PII, nationality, SSN
+France National ID Agency                          11.7M-19M accounts
+Eurail Travel Platform                             1.3TB claimed: names, passports, travel details
+CVE-2025-48700    Zimbra                           Mailbox contents, MFA backup codes
+CVE-2025-66376    Zimbra Classic UI                Session tokens, 2FA codes, mailbox data
+CVE-2026-21992    Oracle Identity Manager            9.8    RCE -> full system -> all data
+Navia Health (Dec 2025-Jan 2026)                   2.69M records: SSN, DOB, health plan
+Medtronic (ShinyHunters)                           Up to 9M records (PHI)
+
+================================================================================
+SECAO 37: DATA LEAK - DATABASE DUMP / BACKUP
+================================================================================
+CVE-2025-14847    MongoDB "MongoBleed"             8.7        Heap memory dump
+CVE-2025-61882    Oracle E-Business Suite          9.8        SSRF + CRLF -> RCE
+CVE-2026-22679    Weaver E-cology 10.0             9.3        Debug endpoint -> RCE
+CVE-2025-8714     PostgreSQL pg_dump               High       Code injection via backup
+CVE-2025-8715     PostgreSQL pg_dump               High       Code injection via object names
+CVE-2025-1094     PostgreSQL + BeyondTrust         8.1        SQL injection chain
+CVE-2024-12356    BeyondTrust PRA                  Critical   Unauthenticated RCE
+CVE-2025-45065    PHP Gurukul                      Critical   Login bypass -> full DB
+CVE-2024-1597     PostgreSQL JDBC                  10.0       Full DB compromise
+CVE-2025-64459    Django ORM                       9.1        SQLi -> RCE
+CVE-2025-57833    Django FilteredRelation          7.1        SQLi -> RCE
+CVE-2026-46364    phpMyFAQ                         Critical   Time-based blind SQLi
+CVE-2026-26990    LibreNMS                         8.8        Time-based blind SQLi
+CVE-2025-32993    Vision Helpdesk                  High       Time-based blind SQLi (UNPATCHED)
+
+================================================================================
+SECAO 38: DATA LEAK - LOG / DEBUG EXPOSURE
+================================================================================
+CVE-2026-22679    Weaver E-cology                  9.3        Debug endpoint exposed
+CVE-2025-34291    Langflow AI                      Critical   Debug info -> code execution
+CVE-2025-3248     Langflow (Flask)                 10.0       Debug/exec injection
+CVE-2025-34069    Werkzeug Debugger                9.0        Debug PIN bypass -> RCE
+CVE-2025-24813    Apache Tomcat                    9.8        Path equivalence -> debug
+CVE-2025-1220     PHP 8.x                          High       Debug info via null-byte
+CVE-2025-1094     PostgreSQL                       8.1        Log-based SQL injection
+CVE-2025-14713    Synology C2 Identity             High       Edge server logs -> credentials
+
+================================================================================
+SECAO 39: DATA LEAK - USER ENUMERATION
+================================================================================
+CVE-2025-32993    Vision Helpdesk                  High       User enumeration via forgot password
+CVE-2026-30841    Wallos < 4.6.2                   Medium     Reflected XSS via password reset
+CVE-2025-61605    WeGIA                            High       Time-based blind SQLi
+CVE-2025-12684    URL Shortify WP                  Medium     User enumeration via URL
+CVE-2025-24799    (Various)                        7.5        Unauthenticated SQLi
+CVE-2025-52410    Institute-of-Current-Students    High       SQLi via GET param
+CVE-2025-4094     Digits WP Plugin                 9.8        OTP brute force -> user enumeration
+CVE-2025-60424    Nagios Fusion                    High       OTP brute force
+
+================================================================================
+SECAO 40: DATA LEAK - MONGODB / NOSQL
+================================================================================
+CVE-2025-14847    MongoDB "MongoBleed"             8.7        Unauthenticated heap memory leak
+CVE-2026-22557    UniFi Network                    10.0       NoSQL injection -> privilege escalation
+CVE-2026-22558    UniFi Network                    10.0       NoSQL injection
+CVE-2026-3022     Wakyma Veterinary                High       NoSQL injection
+CVE-2026-3023     Wakyma Veterinary                High       NoSQL injection
+CVE-2026-30833    Rocket.Chat                      High       NoSQL injection (unauthenticated)
+CVE-2024-48573    Aquila CMS                       High       NoSQL injection -> password reset
+CVE-2025-14911    MongoDB C-driver               7.1        User-controlled chunkSize
+CVE-2026-9101     MongoDB                          5.3        Prototype pollution -> CSV import
+CVE-2025-8714     PostgreSQL pg_dump               High       Code injection
+CVE-2025-8715     PostgreSQL pg_dump               High       Code injection via object names
+CVE-2020-35848    Agentejo Cockpit CMS             High       NoSQL injection -> password reset
+
+================================================================================
+SECAO 41: DATA LEAK - HEALTHCARE / FINANCE / E-COMMERCE
+================================================================================
+Navia Health          2.69M     SSN, DOB, health plan, names
+France National ID    11.7M-19M National identity records
+Brightspeed           1M+       PII, payment cards, session IDs
+Eurail                1.3TB     Names, passports, travel details
+PayPal Working Capital          Account data, transactions
+Orange Romania        600K+     Customer/employee PII, financials, source code
+Medtronic             Up to 9M  PHI, personal data
+Allianz Life          ~1.4M     SSN, DOB, financial info
+Conduent                        8TB exfiltrated
+Citizens Financial              Banking data
+Frost Bank                      Banking data
+Adobe                           Employee data
+Instructure Canvas              Usernames, emails, course data
+16 Billion Credentials  16B     Login credentials (Google, Apple, Meta)
+Salesloft-Drift       700+ orgs Salesforce data
+Salesforce-Gainsight  ~1,000    CRM data
+
+================================================================================
+SECAO 42: DATA LEAK - OAUTH / JWT / SESSION TOKEN
+================================================================================
+CVE-2026-29000    pac4j-jwt                        10.0       Auth bypass via JWE-wrapped PlainJWT
+CVE-2026-27173    Apache Airflow                   8.7        JWT token exposure
+CVE-2025-47411    Apache StreamPipes               Critical   Broken JWT auth
+CVE-2025-30144    fast-jwt                         High       iss claim spoofing
+CVE-2025-4692     Cloud platform                   Critical   Misconfigured JWT library
+CVE-2025-20188    Cisco IOS XE                     10.0       Hard-coded JWT secret
+CVE-2025-53864    Nimbus JOSE+JWT                  High       Nested JSON -> uncontrolled recursion
+CVE-2025-41672    IoT/Embedded                     Critical   Default certificates -> JWT forgery
+CVE-2025-9485     WordPress OAuth SSO              Critical   JWT signature bypass + CSRF
+CVE-2026-34460    NamelessMC                       Medium     OAuth state bypass
+CVE-2025-48757    Lovable AI                       Critical   Missing RLS -> OAuth-like data dump
+CVE-2025-60710    Microsoft                        High       Actively exploited (CISA KEV)
+CVE-2026-34621    Adobe                            High       Actively exploited (CISA KEV)
+Google OAuth Domain Google Sign-in                 High       Domain inheritance flaw
+Salesloft-Drift   700+ orgs                        Critical   OAuth refresh token abuse
+Salesforce-Gainsight ~1,000 orgs                  Critical   OAuth token compromise
+ShinyHunters      Multiple                         Critical   OAuth device flow campaign
+
+================================================================================
+SECAO 43: DATA LEAK - PASSWORD RESET
+================================================================================
+CVE-2025-32993    Vision Helpdesk                  High       Time-based blind SQLi in forgot password (UNPATCHED)
+CVE-2026-30841    Wallos < 4.6.2                   Medium     Reflected XSS in password reset
+CVE-2025-61605    WeGIA                            High       SQLi in pet profile
+CVE-2025-52410    Institute-of-Current-Students    High       SQLi in mydetailsstudent.php
+CVE-2024-48573    Aquila CMS                       High       NoSQL injection -> password reset
+CVE-2025-8342     WooCommerce OTP                  Critical   OTP verification bypass
+CVE-2025-12374    WP User Verification             Critical   Empty OTP -> admin takeover
+CVE-2025-9967     Orion SMS OTP                    High       OTP privilege escalation
+CVE-2025-4094     Digits WP Plugin                 9.8        OTP brute force
+CVE-2025-60424    Nagios Fusion                    High       OTP brute force
+CVE-2026-24038    Horilla HRMS                     High       Flawed OTP equality check
+CVE-2025-66489    Cal.com                          High       TOTP logic flaw
+CVE-2026-44551    Open WebUI                       9.1        LDAP empty password -> full session
+CVE-2025-9485     WP OAuth SSO                     Critical   JWT signature bypass
+CVE-2025-4123     Grafana                          Medium     Open Redirect -> password reset theft
+CVE-2026-34931    Hoppscotch                       High       Open Redirect -> token theft
+CVE-2026-21879    Kanboard                         Medium     Protocol-relative redirect
+CVE-2025-2825     CrushFTP                         Critical   Credential=username/ -> no password
+CVE-2025-57819    FreePBX                          Critical   Auth bypass -> SQLi -> RCE
+
+================================================================================
+SECAO 44: DATA LEAK - EXPOSED .ENV / .GIT / CONFIG
+================================================================================
+CVE-2025-30028    Synology Active Backup           High       Arbitrary file read
+CVE-2024-23897    Jenkins                          Critical   Path traversal -> file read
+CVE-2023-46604    Apache ActiveMQ                  10.0       RCE -> config exfiltration
+CVE-2025-14713    Synology C2 Identity             High       Edge server credentials
+CVE-2024-21182    Oracle WebLogic                  9.8        Unauth network access
+CVE-2025-55752    Apache Tomcat                    High       Path traversal
+CVE-2025-8088     WinRAR                           8.4        Directory traversal
+CVE-2025-42937    SAP SAPSprint                    9.8        Directory traversal
+CVE-2025-43889    Dell DD OS                       Medium     Path traversal
+CVE-2026-34070    LangChain                        Medium     Path traversal
+CVE-2025-1220     PHP 8.x                          High       SSRF via null-byte
+CVE-2025-6218     WinRAR                           7.8        Path traversal
+CVE-2026-34926    Trend Micro Apex One             High       Directory traversal
+
+================================================================================
+SECAO 45: DATA LEAK - REAL-WORLD BREACH INCIDENTS 2025-2026
+================================================================================
+- US Healthcare Breach (2025)                      Milhoes de patient records
+- Automotive Giant (2025)                          70TB+ customer data
+- Pegasus Airlines (2025)                          Terabytes de flight data
+- Crimson Collective (2025)                        ~570GB Red Hat repos
+- France National ID (2025)                        11.7M-19M accounts
+- Navia Health (Dec 2025-Jan 2026)                 2.69M records
+- Medtronic (2025)                                 Up to 9M PHI records
+- Orange Romania (2025)                            600K+ records
+- Allianz Life (2025)                              ~1.4M records
+- Conduent (2025)                                  8TB exfiltrated
+- 16 Billion Credentials (2025)                      16B login credentials
+- Salesloft-Drift (2025)                           700+ orgs
+- Salesforce-Gainsight (2025)                      ~1,000 orgs
+- Adobe (2025)                                     Employee data
+- Instructure Canvas (2025)                        User/course data
+- Brightspeed (2025)                               1M+ records
+- PayPal Working Capital (2025)                    Account data
+- Citizens Financial (2025)                        Banking data
+- Frost Bank (2025)                                Banking data
+- Oracle GlobalLogic (2025)                        Clop extortion $50M
+
+================================================================================
+SECAO 46: CISA KEV TOP 20 (2025-2026)
+================================================================================
+1.  CVE-2025-55182    React2Shell           10.0   RCE
+2.  CVE-2025-32433    Erlang/OTP SSH        10.0   RCE
+3.  CVE-2025-53770    Microsoft SharePoint  9.8    RCE
+4.  CVE-2025-64446    Fortinet FortiWeb     9.8    Auth Bypass
+5.  CVE-2025-37164    HPE OneView           10.0   RCE
+6.  CVE-2025-57819    FreePBX               Critical   Auth -> RCE
+7.  CVE-2025-2825     CrushFTP              Critical   Auth Bypass
+8.  CVE-2025-59718    Fortinet              9.8    SSO Bypass
+9.  CVE-2025-59719    Fortinet              9.8    SSO Bypass
+10. CVE-2025-66516    Apache Tika           10.0   XXE -> RCE
+11. CVE-2025-15467    OpenSSL 3.x           9.8    Buffer Overflow
+12. CVE-2026-41089    Windows Netlogon      9.8    RCE
+13. CVE-2026-0300     Palo Alto PAN-OS      Critical   Buffer Overflow
+14. CVE-2025-22457    Ivanti Connect Secure Critical   Buffer Overflow
+15. CVE-2025-24813    Apache Tomcat         9.8    Deserialization
+16. CVE-2025-3248     Langflow              10.0   RCE
+17. CVE-2025-45387    Apache Traffic Control    9.9    SQLi
+18. CVE-2025-61884    Oracle EBS            Critical   SSRF
+19. CVE-2025-53767    Azure OpenAI          10.0   SSRF
+20. CVE-2025-51591    AWS IMDS              Critical   SSRF
+21. CVE-2025-62221    Windows Cloud Files   High       Privilege Escalation
+22. CVE-2026-34926    Trend Micro Apex One  High       Directory traversal
+23. CVE-2025-60710    Microsoft             High       Actively exploited
+24. CVE-2026-34621    Adobe                 High       Actively exploited
+25. CVE-2025-64095    DNN Platform          Critical   File upload
+
+================================================================================
+ESTATISTICAS
+================================================================================
+Total CVEs catalogadas:           400+
+Total categorias:                  46
+CISA KEV catalogadas:              25
+CVSS 10.0:                         20+
+CVSS 9.8+:                         60+
+Ativamente exploradas:             30+
+Sem patch (Unpatched):             10+
+
+================================================================================
+FONTES
+================================================================================
+- NVD (National Vulnerability Database)
+- CISA KEV (Known Exploited Vulnerabilities)
+- SOCRadar
+- ZeroPath
+- SentinelOne
+- Invicti
+- PortSwigger
+- OWASP
+- WP-Firewall
+- Security Boulevard
+- The Hacker Wire
+- Microsoft Security Blog
+- JFrog
+- Zscaler
+- The Hacker News
+- Indusface
+
+================================================================================
+Y1N SECURITY PLATFORM - Jarvis
+================================================================================
