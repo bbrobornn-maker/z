@@ -1,0 +1,106 @@
+em .telegram_workspace/ (ignorado pelo git)
+- vps_mgr.py, vps_proxies.py: infraestrutura VPS
+
+### IA e ferramentas auxiliares
+- ai_analyzer.py: análise por IA de módulos/checkers
+- generate_card.py: geração visual com PIL
+- cli.py: interface de linha de comando
+- access_log.py: registro/consulta de acessos
+- env_loader.py: carrega .env antes da aplicação
+
+## Interface
+
+Páginas principais:
+- templates/landing.html: landing page
+- templates/site_login.html: login por key
+- templates/pin.html: etapa de PIN
+- templates/index.html: app principal
+- templates/profile.html: perfil
+- templates/admin/: painel administrativo
+- templates/api_portal.html: portal da API
+- Páginas específicas: PPE, IntelX, Discord tools, rare usernames, status
+
+Direção visual:
+- Tema escuro com glassmorphism
+- Cards modulares
+- Sidebar + área central para execução/acompanhamento
+- Componentes admin com tabelas, cards e ações rápidas
+
+## Convenções de manutenção
+- Preserve a estrutura atual — sem rewrites desnecessários
+- Antes de alterar um módulo: verificar imports em app.py e permissões em key_store.py
+- Novos módulos expõem função clara com retorno {ok, category, msg/details}
+- Mudanças em auth, permissões, jobs ou banco: pequenas, explícitas, testadas
+- Não duplicar dependências em requirements.txt
+- Sem logs verbosos com dados sensíveis
+
+---
+
+## Módulos OSINT — estado atual (resumo)
+
+Conhecimento técnico profundo de TODOS os módulos está em:
+→ MODULOS_UNIVERSAL.txt (raiz do projeto)
+
+Inclui: autenticação, endpoints reais, parsing, campos retornados,
+particularidades, rate limits e infraestrutura de cada módulo.
+
+Status resumido:
+
+### SISREG III ✅ Funcional
+- Servidor na VPS Windows 45.154.159.87:5051, pool 22 contas, keepalive 30min
+- Fix para projeto externo: _ajuda/api_corrigido.py + _ajuda/index_corrigido.html
+
+### CADSUS ⚠️ Servidor ativo, aguardando sessão
+- VPS Windows porta 5050 — precisa de login manual via RDP para ativar
+
+### PPE SINESP ✅ Funcional
+- Requer credencial ativa de operador PPE (CPF + senha + TOTP)
+
+### SINESP Mobile — MOB codes (API mobile / scan_sinesp.py)
+Todos os códigos de retorno da API mobile SINESP:
+
+| Código | Categoria | Significado |
+|--------|-----------|-------------|
+| MOB200 | LIVE      | Login bem-sucedido (token retornado) |
+| MOB201 | LIVE      | Login bem-sucedido (variante) |
+| MOB202 | LIVE      | Login bem-sucedido (variante) |
+| MOB204 | LIVE      | Login bem-sucedido (variante) |
+| MOB411 | DEAD      | Usuário ou senha inválida |
+| MOB400 | DEAD      | Bad request / credencial inválida |
+| MOB403 | DEAD      | Acesso proibido |
+| MOB404 | DEAD      | Conta não encontrada |
+| MOB410 | DEAD      | Conta removida / Gone |
+| MOB424 | BLACKLIST | Senha bloqueada |
+| MOB423 | BLACKLIST | Conta bloqueada (variante) |
+| MOB425 | BLACKLIST | Conta bloqueada (variante) |
+| MOB426 | OTP       | 2FA ativado — tenta bypass automático, se falhar salva como OTP |
+| MOB427 | OTP       | 2FA ativado (variante) — mesmo tratamento do MOB426 |
+| MOB429 | RATELIMIT | Too many requests — retry com cooldown |
+| MOB503 | RATELIMIT | Serviço indisponível — retry |
+| MOB433 | RATELIMIT | Rate limit por IP — proxy entra em cooldown de 30s |
+
+Bypass automático OTP (MOB426/427): testa OTPs ["", "000000", "null", "true", "123456", "0", "111111"].
+Se retornar MOB2xx → salva como LIVE. Se falhar → salva par cpf|senha|MOBxxx no arquivo OTP separado.
+
+---
+
+## Infraestrutura VPS
+
+- Windows 45.154.159.87: SISREG server (5051), CADSUS server (5050), Python com requests 2.33.1, flask, beautifulsoup4
+- Ubuntu 193.202.85.90: CNH/Foto Node API (3000)
+
+---
+
+## Discord Tools — conhecimento técnico pesquisado
+
+Pesquisa realizada em Abril/2026 para o módulo Discord Tools (selfbot/user token).
+
+Biblioteca principal: discord.py-self (fork dolfies)
+  https://github.com/dolfies/discord.py-self
+
+Biblioteca alternativa (HTTP direto): discum
+  https://pypi.org/project/discum/
+
+API Discord (user token, não bot): https://discord.com/api/v9
+  - Token vai no header Authorization SEM prefixo "Bot "
+  - Headers obrigatórios: X-Super-Properties (base64 do

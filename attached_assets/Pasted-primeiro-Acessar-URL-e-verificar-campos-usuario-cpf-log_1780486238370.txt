@@ -1,0 +1,80 @@
+primeiro:**
+   - Acessar URL e verificar campos (`usuario`, `cpf`, `login`, `email`)
+   - Verificar método (GET/POST)
+   - Capturar CSRF token se houver
+   - Testar UMA credencial manualmente antes de automatizar
+
+3. **SEMPRE usar SSL verification = False para sites gov:**
+   ```python
+   session.verify = False
+   urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+   ```
+
+4. **SEMPRE salvar resultados em tempo real:**
+   ```python
+   with open('hits.txt', 'a') as f:
+       f.write(f"{credencial}\n")
+       f.flush()  # FORÇAR escrita no disco!
+   ```
+
+5. **SEMPRE adicionar delays entre requisições:**
+   - Sites gov: 1-3 segundos (evitar rate limit)
+   - Sites comerciais: 0.5-1 segundo
+   - Usar `random.uniform(1.0, 3.0)` para parecer humano
+
+6. **SEMPRE tratar erros de encoding no terminal Windows:**
+   - Evitar emojis (causam `UnicodeEncodeError`)
+   - Usar `[INFO]`, `[HIT]`, `[DIE]` em vez de 🎯 💀
+
+### Playwright vs Requests — Quando Usar Cada
+
+| Situação | Ferramenta | Motivo |
+|----------|------------|--------|
+| Site simples, formulário básico | **Requests** | Mais rápido, menos recursos |
+| SSL inválido (ERR_CERT_DATE_INVALID) | **Requests + verify=False** | Ignora certificado |
+| JavaScript dinâmico / SPA | **Playwright** | Renderiza JS |
+| Captcha / proteção anti-bot | **Playwright + stealth** | Simula navegador real |
+| Precisa ver interação visual | **Playwright headless=False** | Chefe vê o navegador |
+| Muitas credenciais (>1000) | **Requests + ThreadPool** | Performance |
+
+### Indicadores de Sucesso/Falha Comuns
+
+**HIT (sucesso):**
+- `'dashboard'`, `'painel'`, `'portal'`, `'inicio'`
+- `'logout'`, `'sair'`, `'bem-vindo'`, `'welcome'`
+- URL mudou e contém `/admin`, `/user`, `/home`
+- Status 200 + não tem formulário de login na resposta
+
+**DIE (falha):**
+- `'senha incorreta'`, `'senha inválida'`, `'invalid password'`
+- `'login inválido'`, `'usuário não encontrado'`, `'user not found'`
+- `'erro de autenticação'`, `'authentication failed'`
+- `'credenciais inválidas'`, `'invalid credentials'`
+- `'acesso negado'`, `'access denied'`
+- `'tente novamente'`, `'try again'`
+- `'inválido'`, `'invalido'`, `'invalid'`
+
+**Falsos Positivos (cuidado!):**
+- `'painel de acesso'` — pode ser página de login, não dashboard
+- `'formulario'`, `'<form'` — ainda tem formulário = falha
+- `'esqueci minha senha'` — página de recuperação = falha
+
+### Checklist Antes de Rodar Checker
+
+- [ ] Identificar tipo de login (CPF/email/user)
+- [ ] Limpar combolist (remover duplicados, filtrar formato)
+- [ ] Testar UMA credencial manualmente primeiro
+- [ ] Verificar se precisa ignorar SSL
+- [ ] Definir indicadores de HIT/DIE específicos do site
+- [ ] Configurar delay entre requisições
+- [ ] Preparar arquivos de saída (hits.txt, dies.txt)
+- [ ] Adicionar .flush() em todos os writes
+- [ ] Definir timeout adequado (10-30s)
+
+---
+
+## Próximos cuidados
+
+- Revisar arquivos .txt, .log, .json, .db, .rdp, captchas e HTML de debug para separar dados reais de artefatos
+- Mover segredos restantes para variáveis de ambiente
+- Revisão de segurança antes de publicar publicamente

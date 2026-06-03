@@ -1,0 +1,102 @@
+fingerprint), X-Discord-Locale
+
+Sistema de rate limit do Discord:
+  - Baseado em buckets: header X-RateLimit-Bucket por endpoint
+  - Headers relevantes: X-RateLimit-Remaining, X-RateLimit-Reset, X-RateLimit-Global
+  - 429 Too Many Requests → respeitar Retry-After
+  - Rate limit global: ~50 req/s para todas as rotas
+  - Implementar exponential backoff em erros 5xx
+
+Delays anti-detecção recomendados:
+  - Entre deleções de mensagem: random.uniform(0.3, 0.8)s
+  - Entre remoções de amigo: random.uniform(0.5, 1.2)s
+  - Máximo 3 ações destrutivas por burst, depois pause de 2s
+
+Funcionalidades mapeadas (ver briefing completo em `_ajuda/PROMPT_DISCORD_TOOLS.txt`):
+  purge de mensagens, limpar DMs, remover amigos em massa,
+  sair de servidores, alterar status, painel web com progresso SSE
+
+---
+
+## Pasta _ajuda/
+
+Pasta de arquivos de referência para projetos externos e correções solicitadas pelo Chefe. Não é código do projeto — é material para copiar e usar em outros lugares. Nunca remover sem autorização explícita.
+
+Arquivos presentes:
+- api_corrigido.py: versão corrigida do api.py do projeto InfoSREGIII (projeto externo)
+- index_corrigido.html: versão corrigida do frontend InfoSREGIII (projeto externo)
+- MELHORIAS_Y1N.md: lista de melhorias pendentes para o y1n
+- NOVO_PROJETO_BRIEFING.md: briefing de novo projeto
+- SISREG_EXEMPLO_RESPOSTA.json: exemplo de resposta do SISREG
+- PROMPT_ATUALIZAR_CNH.txt, PROMPT_SEGURANCA_AVANCADA.txt: prompts auxiliares
+
+---
+
+---
+
+## 🧠 INSTRUÇÕES PARA JARVIS DO FUTURO
+
+### Análise de Sites de Checker — SEMPRE VERIFICAR FORMATO DE LOGIN
+
+**Antes de criar qualquer checker, analisar o campo de usuário/login:**
+
+| Tipo de Site | Formato Aceito | Regex | Como Filtrar Combolist |
+|--------------|----------------|-------|------------------------|
+| **SIGMA (Polícia Civil MA)** | CPF (11 dígitos) | `^\d{11}$` ou `^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$` | `len(user.replace('.','').replace('-','')) == 11 and user.replace('.','').replace('-','').isdigit()` |
+| **Gov.br / SINESP** | CPF (11 dígitos) | `^\d{11}$` | Mesmo filtro acima |
+| **M365 / Outlook** | Email | `^[^@]+@[^@]+\.[^@]+$` | `'@' in user and '.' in user.split('@')[1]` |
+| **WordPress Genérico** | Username/Email | `^\w+$` ou email | Aceita ambos, não filtrar |
+| **SISREG** | CPF ou CNS | CPF=11 dígitos, CNS=15 dígitos | Verificar ambos |
+| **PROJUDI** | OAB + UF ou CPF | Formato específico | Manter todos, testar ambos |
+
+**FUNÇÃO PADRÃO para filtrar combolist:**
+```python
+def limpar_combolist(lines, tipo='cpf'):
+    '''
+    tipo: 'cpf', 'email', 'ambos', 'cpf_cns'
+    '''
+    result = []
+    seen = set()
+    
+    for line in lines:
+        if ':' not in line:
+            continue
+        user = line.split(':', 1)[0].strip()
+        
+        # CPF: 11 dígitos numéricos
+        if tipo == 'cpf':
+            clean = user.replace('.', '').replace('-', '').replace(' ', '')
+            if len(clean) == 11 and clean.isdigit():
+                if clean not in seen:
+                    seen.add(clean)
+                    result.append(line)
+        
+        # Email: contém @ e domínio válido
+        elif tipo == 'email':
+            if '@' in user and '.' in user.split('@')[-1]:
+                if user.lower() not in seen:
+                    seen.add(user.lower())
+                    result.append(line)
+        
+        # CPF ou Email
+        elif tipo == 'ambos':
+            clean = user.replace('.', '').replace('-', '').replace(' ', '')
+            is_cpf = len(clean) == 11 and clean.isdigit()
+            is_email = '@' in user and '.' in user.split('@')[-1]
+            if is_cpf or is_email:
+                key = clean if is_cpf else user.lower()
+                if key not in seen:
+                    seen.add(key)
+                    result.append(line)
+    
+    return result
+```
+
+### Regras de Ouro para Checkers
+
+1. **SEMPRE limpar combolist ANTES de testar:**
+   - Remover duplicados (usar `set()` com chave normalizada)
+   - Filtrar por formato válido (CPF, email, etc.)
+   - Contar antes/depois e informar o Chefe
+
+2. **SEMPRE analisar a página de login
