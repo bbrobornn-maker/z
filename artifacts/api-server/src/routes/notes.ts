@@ -18,6 +18,7 @@ import {
   AddNoteTagBody,
   GetNoteLinksParams,
   GetNoteLinksResponse,
+  GetNoteLinksResponseItem,
   CreateNoteLinkParams,
   CreateNoteLinkBody,
   DeleteNoteLinkParams,
