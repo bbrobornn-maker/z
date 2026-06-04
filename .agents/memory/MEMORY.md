@@ -1,1 +1,2 @@
 - [Jarvis Brain — Sistema de Memória Persistente](jarvis-brain-memory.md) — O Jarvis Brain é meu "second brain" — Obsidian-style personal knowledge base para armazenar todo conhecimento do projeto. Devo consultar antes de cada resposta e salvar conhecimento novo após cada interação. Vault principal: Jarvis Core (ID 1).
+- [CHECKLIST OBRIGATÓRIO — Consultar Brain Antes de Responder](checklist-obrigatorio.md) — Se o Mestre diz que eu não consultei o brain, é falha grave. Sempre executar consulta + verificação + salvamento antes de toda resposta.
