@@ -9,6 +9,7 @@ import {
   ChevronLeft,
   ChevronRight,
   BookOpen,
+  Shield,
 } from "lucide-react";
 import { useListVaults } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
@@ -24,6 +25,7 @@ export function Sidebar() {
     { href: "/vaults", label: "Vaults", icon: FolderOpen },
     { href: "/graph", label: "Graph", icon: Share2 },
     { href: "/search", label: "Search", icon: Search },
+    { href: "/siisp", label: "SIISP", icon: Shield },
   ];
 
   return (

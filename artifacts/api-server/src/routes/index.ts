@@ -5,6 +5,7 @@ import notesRouter from "./notes";
 import graphRouter from "./graph";
 import searchRouter from "./search";
 import seedRouter from "./seed";
+import siispRouter from "./siisp";
 
 const router: IRouter = Router();
 
@@ -14,5 +15,6 @@ router.use(notesRouter);
 router.use(graphRouter);
 router.use(searchRouter);
 router.use(seedRouter);
+router.use(siispRouter);
 
 export default router;

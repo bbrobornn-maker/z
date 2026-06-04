@@ -9,6 +9,7 @@ import Vault from "@/pages/vault";
 import NotePage from "@/pages/note";
 import GraphPage from "@/pages/graph";
 import SearchPage from "@/pages/search";
+import SiispPage from "@/pages/siisp";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ function Router() {
       <Route path="/notes/:noteId" component={NotePage} />
       <Route path="/graph" component={GraphPage} />
       <Route path="/search" component={SearchPage} />
+      <Route path="/siisp" component={SiispPage} />
       <Route component={NotFound} />
     </Switch>
   );
