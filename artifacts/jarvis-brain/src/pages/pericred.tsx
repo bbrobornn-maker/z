@@ -25,6 +25,9 @@ import {
   Star,
   Shield,
   Zap,
+  FileText,
+  MessageCircle,
+  Copy,
 } from "lucide-react";
 
 const MOCK_LEADS = [
@@ -485,11 +488,16 @@ export default function PeriCredPage() {
 }
 
 function SimuladorCard() {
+  const [nome, setNome] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [renda, setRenda] = useState(3000);
   const [valor, setValor] = useState(15000);
   const [prazo, setPrazo] = useState(24);
   const [banco, setBanco] = useState("Nubank");
   const [score, setScore] = useState(750);
-  const [simulado, setSimulado] = useState(false);
+  const [gerado, setGerado] = useState(false);
+  const [gerando, setGerando] = useState(false);
+  const [copiado, setCopiado] = useState(false);
 
   const bankTaxa = BANKS.find((b) => b.name === banco)?.taxa || 1.99;
   const scoreBonus = score >= 800 ? 0.3 : score >= 700 ? 0.15 : score >= 600 ? 0 : -0.5;
@@ -497,125 +505,331 @@ function SimuladorCard() {
   const parcela = Math.round((valor * (taxaFinal / 100)) / (1 - Math.pow(1 + taxaFinal / 100, -prazo)));
   const total = parcela * prazo;
   const juros = total - valor;
+  const codigo = "PRC" + Date.now().toString(36).toUpperCase();
+  const dataHora = new Date().toLocaleString("pt-BR");
+  const protocolo = "PERI" + Math.random().toString(36).substring(2, 8).toUpperCase();
 
-  const handleSimular = () => {
-    setSimulado(true);
+  const handleGerar = () => {
+    setGerando(true);
+    setTimeout(() => {
+      setGerando(false);
+      setGerado(true);
+    }, 2000);
   };
 
+  const handleCopiar = () => {
+    const texto = mensagemEngenharia(nome, valor, parcela, prazo, banco, taxaFinal, total, codigo, protocolo);
+    navigator.clipboard.writeText(texto);
+    setCopiado(true);
+    setTimeout(() => setCopiado(false), 3000);
+  };
+
+  const rendaMinima = Math.round(parcela * 2.5);
+
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto space-y-4">
+      {/* Formulario */}
       <Card className="bg-slate-900 border-slate-800">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Zap className="h-5 w-5 text-emerald-500" />
-            Simulador de Crédito
+          <CardTitle className="flex items-center gap-2 text-sm">
+            <Zap className="h-4 w-4 text-emerald-500" />
+            Consulta de Proposta
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label className="text-xs text-slate-400 mb-1 block">Nome completo</label>
+              <Input
+                placeholder="Digite o nome do cliente"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+                className="bg-slate-800 border-slate-700 text-white"
+              />
+            </div>
+            <div>
+              <label className="text-xs text-slate-400 mb-1 block">CPF</label>
+              <Input
+                placeholder="000.000.000-00"
+                value={cpf}
+                onChange={(e) => setCpf(e.target.value)}
+                className="bg-slate-800 border-slate-700 text-white"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label className="text-xs text-slate-400 mb-1 block">Valor desejado</label>
+              <div className="flex items-center gap-3">
+                <Input
+                  type="range"
+                  min="1000"
+                  max="100000"
+                  step="1000"
+                  value={valor}
+                  onChange={(e) => setValor(Number(e.target.value))}
+                  className="flex-1"
+                />
+                <span className="text-emerald-400 font-bold min-w-[80px] text-right text-sm">
+                  R$ {valor.toLocaleString()}
+                </span>
+              </div>
+            </div>
+            <div>
+              <label className="text-xs text-slate-400 mb-1 block">Prazo (meses)</label>
+              <div className="flex items-center gap-3">
+                <Input
+                  type="range"
+                  min="6"
+                  max="60"
+                  step="6"
+                  value={prazo}
+                  onChange={(e) => setPrazo(Number(e.target.value))}
+                  className="flex-1"
+                />
+                <span className="text-white font-bold min-w-[50px] text-right text-sm">{prazo}x</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label className="text-xs text-slate-400 mb-1 block">Banco</label>
+              <div className="flex gap-2 flex-wrap">
+                {BANKS.map((b) => (
+                  <Button
+                    key={b.name}
+                    variant={banco === b.name ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setBanco(b.name)}
+                    className={banco === b.name ? "bg-emerald-600" : "border-slate-700"}
+                  >
+                    {b.name}
+                  </Button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <label className="text-xs text-slate-400 mb-1 block">Score Serasa</label>
+              <div className="flex items-center gap-3">
+                <Input
+                  type="range"
+                  min="0"
+                  max="1000"
+                  step="10"
+                  value={score}
+                  onChange={(e) => setScore(Number(e.target.value))}
+                  className="flex-1"
+                />
+                <span className={`font-bold min-w-[50px] text-right text-sm ${score >= 750 ? "text-emerald-400" : score >= 600 ? "text-amber-400" : "text-red-400"}`}>
+                  {score}
+                </span>
+              </div>
+            </div>
+          </div>
+
           <div>
-            <label className="text-xs text-slate-400 mb-1 block">Valor desejado</label>
+            <label className="text-xs text-slate-400 mb-1 block">Renda mensal declarada</label>
             <div className="flex items-center gap-3">
               <Input
                 type="range"
                 min="1000"
-                max="100000"
-                step="1000"
-                value={valor}
-                onChange={(e) => setValor(Number(e.target.value))}
+                max="20000"
+                step="500"
+                value={renda}
+                onChange={(e) => setRenda(Number(e.target.value))}
                 className="flex-1"
               />
-              <span className="text-emerald-400 font-bold min-w-[100px] text-right">
-                R$ {valor.toLocaleString()}
+              <span className="text-emerald-400 font-bold min-w-[80px] text-right text-sm">
+                R$ {renda.toLocaleString()}
               </span>
             </div>
           </div>
 
-          <div>
-            <label className="text-xs text-slate-400 mb-1 block">Prazo (meses)</label>
-            <div className="flex items-center gap-3">
-              <Input
-                type="range"
-                min="6"
-                max="60"
-                step="6"
-                value={prazo}
-                onChange={(e) => setPrazo(Number(e.target.value))}
-                className="flex-1"
-              />
-              <span className="text-white font-bold min-w-[60px] text-right">{prazo}x</span>
-            </div>
-          </div>
-
-          <div>
-            <label className="text-xs text-slate-400 mb-1 block">Banco</label>
-            <div className="flex gap-2 flex-wrap">
-              {BANKS.map((b) => (
-                <Button
-                  key={b.name}
-                  variant={banco === b.name ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setBanco(b.name)}
-                  className={banco === b.name ? "bg-emerald-600" : "border-slate-700"}
-                >
-                  {b.name}
-                </Button>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <label className="text-xs text-slate-400 mb-1 block">Score Serasa</label>
-            <div className="flex items-center gap-3">
-              <Input
-                type="range"
-                min="0"
-                max="1000"
-                step="10"
-                value={score}
-                onChange={(e) => setScore(Number(e.target.value))}
-                className="flex-1"
-              />
-              <span className={`font-bold min-w-[60px] text-right ${score >= 750 ? "text-emerald-400" : score >= 600 ? "text-amber-400" : "text-red-400"}`}>
-                {score}
-              </span>
-            </div>
-          </div>
-
-          <Button onClick={handleSimular} className="w-full bg-emerald-600 hover:bg-emerald-700">
-            <CreditCard className="h-4 w-4 mr-2" />
-            Simular Agora
+          <Button
+            onClick={handleGerar}
+            disabled={gerando || !nome}
+            className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50"
+          >
+            {gerando ? (
+              <>
+                <Clock className="h-4 w-4 mr-2 animate-spin" />
+                Consultando base de dados...
+              </>
+            ) : (
+              <>
+                <FileText className="h-4 w-4 mr-2" />
+                Gerar Proposta Oficial
+              </>
+            )}
           </Button>
+          {!nome && <p className="text-xs text-amber-400 text-center">Preencha o nome para gerar</p>}
+        </CardContent>
+      </Card>
 
-          {simulado && (
-            <div className="mt-4 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-lg space-y-2">
-              <div className="flex justify-between">
-                <span className="text-slate-400">Taxa de juros:</span>
-                <span className="text-white font-bold">{taxaFinal.toFixed(2)}% a.m.</span>
+      {/* Proposta Gerada - Estilo Documento Oficial */}
+      {gerado && (
+        <>
+          <div id="proposta-oficial" className="bg-white rounded-lg p-6 text-slate-900 shadow-lg border border-slate-200">
+            {/* Cabecalho */}
+            <div className="flex items-center justify-between border-b-2 border-slate-200 pb-4 mb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center">
+                  <DollarSign className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <h2 className="font-bold text-lg text-slate-900">PeriCred</h2>
+                  <p className="text-xs text-slate-500">Proposta de Empréstimo Pessoal</p>
+                </div>
               </div>
-              <div className="flex justify-between">
-                <span className="text-slate-400">Parcela:</span>
-                <span className="text-emerald-400 font-bold text-lg">R$ {parcela.toLocaleString()}</span>
+              <div className="text-right">
+                <p className="text-xs text-slate-400">Proposta</p>
+                <p className="font-bold text-emerald-600">{codigo}</p>
+                <p className="text-xs text-slate-400 mt-1">{dataHora}</p>
               </div>
-              <div className="flex justify-between">
-                <span className="text-slate-400">Total a pagar:</span>
-                <span className="text-white font-bold">R$ {total.toLocaleString()}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-400">Juros total:</span>
-                <span className="text-amber-400">R$ {juros.toLocaleString()}</span>
-              </div>
-              <div className="pt-2 border-t border-emerald-500/20">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="h-4 w-4 text-emerald-500" />
-                  <span className="text-emerald-400 text-sm font-medium">
-                    Chance de aprovação: {score >= 750 ? "95%" : score >= 600 ? "78%" : "45%"}
-                  </span>
+            </div>
+
+            {/* Dados do Cliente */}
+            <div className="bg-slate-50 rounded-lg p-4 mb-4 border border-slate-200">
+              <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Dados do Cliente</h3>
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                <div>
+                  <p className="text-xs text-slate-400">Nome</p>
+                  <p className="font-medium text-slate-900">{nome || "---"}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-400">CPF</p>
+                  <p className="font-medium text-slate-900">{cpf || "---"}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-400">Renda declarada</p>
+                  <p className="font-medium text-slate-900">R$ {renda.toLocaleString()}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-400">Score Serasa</p>
+                  <p className={`font-bold ${score >= 750 ? "text-emerald-600" : score >= 600 ? "text-amber-600" : "text-red-600"}`}>{score}</p>
                 </div>
               </div>
             </div>
-          )}
-        </CardContent>
-      </Card>
+
+            {/* Dados da Proposta */}
+            <div className="bg-slate-50 rounded-lg p-4 mb-4 border border-slate-200">
+              <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Condições da Proposta</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
+                <div>
+                  <p className="text-xs text-slate-400">Banco</p>
+                  <p className="font-bold text-slate-900">{banco}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-400">Valor solicitado</p>
+                  <p className="font-bold text-emerald-600">R$ {valor.toLocaleString()}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-400">Prazo</p>
+                  <p className="font-bold text-slate-900">{prazo}x</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-400">Taxa de juros</p>
+                  <p className="font-bold text-slate-900">{taxaFinal.toFixed(2)}% a.m.</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-400">Parcela</p>
+                  <p className="font-bold text-emerald-600 text-lg">R$ {parcela.toLocaleString()}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-400">Total</p>
+                  <p className="font-bold text-slate-900">R$ {total.toLocaleString()}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Status */}
+            <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4 mb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center">
+                  <CheckCircle className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <p className="font-bold text-emerald-700">PRÉ-APROVADO</p>
+                  <p className="text-xs text-emerald-600">
+                    Proposta pré-aprovada na instituição {banco}. Validade: 24 horas.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Protocolo */}
+            <div className="flex items-center justify-between text-xs text-slate-400 border-t border-slate-200 pt-3">
+              <span>Protocolo: {protocolo}</span>
+              <span>PeriCred - Consultoria de Crédito</span>
+            </div>
+          </div>
+
+          {/* Mensagem de WhatsApp */}
+          <Card className="bg-slate-900 border-slate-800">
+            <CardHeader>
+              <CardTitle className="text-sm flex items-center gap-2">
+                <MessageCircle className="h-4 w-4 text-emerald-500" />
+                Mensagem para o Cliente
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="bg-slate-800 rounded-lg p-4 text-sm text-slate-300 whitespace-pre-wrap leading-relaxed">
+                {mensagemEngenharia(nome, valor, parcela, prazo, banco, taxaFinal, total, codigo, protocolo)}
+              </div>
+              <Button
+                onClick={handleCopiar}
+                className="w-full mt-3 bg-emerald-600 hover:bg-emerald-700"
+              >
+                {copiado ? (
+                  <>
+                    <CheckCircle className="h-4 w-4 mr-2" />
+                    Copiado! Cole no WhatsApp
+                  </>
+                ) : (
+                  <>
+                    <Copy className="h-4 w-4 mr-2" />
+                    Copiar mensagem
+                  </>
+                )}
+              </Button>
+            </CardContent>
+          </Card>
+        </>
+      )}
     </div>
   );
+}
+
+function mensagemEngenharia(
+  nome: string,
+  valor: number,
+  parcela: number,
+  prazo: number,
+  banco: string,
+  taxa: number,
+  total: number,
+  codigo: string,
+  protocolo: string
+) {
+  return `Oi ${nome.split(" ")[0]}! Boa notícia 🎉
+
+Acabei de consultar sua proposta na base do ${banco} e deu PRÉ-APROVADO.
+
+💰 Valor: R$ ${valor.toLocaleString()}
+📅 Prazo: ${prazo}x de R$ ${parcela.toLocaleString()}
+📊 Taxa: ${taxa.toFixed(2)}% a.m.
+
+Para fechar, preciso que você me envie:
+✅ Foto do RG frente e verso
+✅ Selfie segurando o RG
+✅ Comprovante de renda (ou prints do app do banco)
+
+Quanto mais rápido mandar, mais rápido cai na conta. Essa proposta tem validade de 24h.
+
+Me manda agora que eu já subo seu processo.
+
+Proposta: ${codigo}
+Protocolo: ${protocolo}`;
 }
