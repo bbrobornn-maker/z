@@ -20,11 +20,11 @@ const PAGE_TITLES: Record<string, string> = {
   "/identities": "Identidades",
   "/notes": "Notas",
   "/licenses": "Licenças",
+  "/account": "Minha Conta",
   "/security": "Segurança",
   "/history": "Histórico",
   "/audit": "Auditoria",
   "/settings": "Configurações",
-  "/account": "Minha Conta",
 };
 
 export default function Layout({ children }: { children: ReactNode }) {

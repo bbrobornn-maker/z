@@ -36,6 +36,7 @@ const NAV_SECTIONS = [
   {
     label: "Sistema",
     items: [
+      { path: "/account", label: "Minha Conta", icon: User },
       { path: "/security", label: "Segurança", icon: ShieldCheck },
       { path: "/history", label: "Histórico", icon: History },
       { path: "/audit", label: "Auditoria", icon: Lock },

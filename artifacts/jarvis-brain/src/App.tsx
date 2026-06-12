@@ -11,6 +11,7 @@ import SecurityPage from "@/pages/security";
 import HistoryPage from "@/pages/history";
 import AuditPage from "@/pages/audit";
 import SettingsPage from "@/pages/settings";
+import AccountPage from "@/pages/account";
 import { CategoryPage } from "@/pages/category-page";
 
 function AppContent() {
@@ -41,6 +42,7 @@ function AppContent() {
           <Route path="/history" component={HistoryPage} />
           <Route path="/audit" component={AuditPage} />
           <Route path="/settings" component={SettingsPage} />
+          <Route path="/account" component={AccountPage} />
           <Route component={() => (
             <div className="flex flex-col items-center justify-center h-full py-20 text-center">
               <div className="text-5xl mb-4">404</div>
