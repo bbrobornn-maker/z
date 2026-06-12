@@ -1,0 +1,14 @@
+{
+  "name": "NOIR VAULT",
+  "short_name": "NOIR VAULT",
+  "description": "Gerenciador de senhas zero-knowledge premium",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ],
+  "categories": ["productivity", "utilities", "security"]
+}
